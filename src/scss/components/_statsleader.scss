@@ -6,25 +6,28 @@
     
     a{
         text-decoration: none;
-        color: inherit;
+        color: a.$primary-dark;
     }
-    
+
+
     //Card inside section/grid
     &__card{
     background-color: a.$primary-light;
     filter: drop-shadow(3px 4px 5px rgba(0,0,0,.4));
+
         //Top-section
         &--top{
             position: relative;
             background-color: a.$accent-color-secondary;
             display: flex;
             min-height: 120px;
-
+            
             &--text{
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
                 padding: 0.7rem;
+                color: a.$white-color;
 
                 p{
                     margin: -0.2rem;
@@ -45,7 +48,7 @@
                 position: absolute;
                 bottom:0;
                 right: 0;
-                max-width: 140px;
+                max-width: 150px;
 
             }
         }
@@ -54,6 +57,11 @@
         //List section
         &--list{
             color: a.$primary-dark;
+
+            a{
+                text-decoration: none;
+                color: a.$primary-dark;
+            }
             
             &--item{
                 display: flex;
@@ -72,6 +80,11 @@
                 max-width: 45px;
                 max-height: 45px;
                 border-radius: 50%;
+            }
+
+            &--name{
+                width: 100%;
+                padding-left: 5%;    
             }
 
             &--stat{
