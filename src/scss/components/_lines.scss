@@ -1,0 +1,15 @@
+@use '../abstracts/' as a;
+
+.hr{
+    &__short{
+    max-width: 50px ;
+    height: 5px;
+    margin-left: 0;
+        &--yellow{
+        @extend .hr__short;
+        color: a.$accent-color-teriteray;
+        border: none;
+        background-color: a.$accent-color-teriteray;
+        }
+    }
+}

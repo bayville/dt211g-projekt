@@ -1,0 +1,32 @@
+$primary-light: #FAFAFA; //BG
+$primary-dark: #333F48; //Text 
+$accent-color: #005EB8; //Accent
+$accent-color-secondary: #005eb8c7; //Accent2
+$accent-color-teriteray: #EAAA00;
+$white-color: #fff;
+
+
+$primary-light-darkm: #333F48; //BG
+$primary-dark-darkm: #FAFAFA; //Text 
+$accent-color-darkm: #005EB8; //Accent
+$accent-color-secondary-darkm: #005eb8c7; //Accent2
+$accent-color-teriteray-darkm: #EAAA00;
+$white-color-darkm: #fff;
+
+
+// Quick scheme used for text/bg, called with mixin color-scheme.
+$scheme-default: $primary-light, $primary-dark;
+$scheme-dark: $primary-light-darkm, $primary-dark-darkm;
+
+
+//Padding/Margin
+$base-padding: 0.75rem;
+$base-margin: 0.75rem;
+
+$button-padding: $base-padding ($base-padding * 3);
+$section-padding: $base-padding * 4;
+$section-margin: $base-margin * 4;
+
+
+//Border-radius
+$base-border-radius: 6px;

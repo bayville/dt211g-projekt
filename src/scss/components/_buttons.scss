@@ -1,0 +1,127 @@
+@use '../abstracts/' as a;
+
+.btn{
+    padding: a.$button-padding;
+    border:2px solid transparent;
+    cursor: pointer;   
+    transition: 0.2s;
+    font-weight: 700;
+
+    &:active{
+        transform: translateY(-3px);
+    }
+
+    //Priary button styles
+    &__primary{
+        //Dark button
+        &--dark{
+            @extend .btn;
+            background: a.$primary-dark;
+            color: a.colorCheck(a.$primary-dark);
+            &:hover{
+                color: a.colorCheck(a.$primary-dark);
+                background: lighten(a.$primary-dark, 10%);
+            }
+        }
+
+        //Yellow button
+        &--yellow{
+            @extend .btn;
+            background: a.$accent-color-teriteray;
+            color: a.$primary-dark;
+    
+            &:hover{
+                background: lighten(a.$accent-color-teriteray, 10%);
+            }
+        }
+
+        //Blue button
+        &--blue{
+            @extend .btn;
+            background: a.$accent-color;
+            color: a.$white-color;
+    
+            &:hover{
+                color: a.colorCheck(a.$accent-color);
+                background: a.$accent-color-secondary;
+            }
+    }
+    }
+
+    //Secondary button styles
+    &__secondary{
+
+            &--dark{
+                @extend .btn;
+                background-color: transparent;
+                border:2px solid a.$primary-dark ;
+                color: a.$primary-dark;
+
+                &:hover{
+                    background-color: a.$primary-dark;
+                    color: a.$white-color;
+                }
+            }
+
+            &--yellow{
+                @extend .btn;
+                background-color: transparent;
+                border:2px solid a.$accent-color-teriteray ;
+                color: a.$accent-color-teriteray;
+                
+                &:hover{
+                    background-color: a.$accent-color-teriteray;
+                    color: a.$primary-dark;
+                }
+
+            }
+
+            &--blue{
+                @extend .btn;
+                background-color: transparent;
+                border:2px solid a.$accent-color;
+                color: a.$accent-color;
+                
+                &:hover{
+                    background-color: a.$accent-color;
+                    color: a.$white-color;
+                }
+            }
+    }
+
+
+@include a.dark-mode {
+        &__secondary{
+            //Dark button
+            &--dark{
+                border:2px solid a.$white-color ;
+                color: a.$white-color;
+                &:hover{
+                    background-color: a.$white-color;
+                    color: a.colorCheck(a.$white-color);
+                }
+            }
+            &--blue{
+                color: a.$white-color;
+                &:hover{
+                    color: a.colorCheck(a.$accent-color-secondary);
+                    background: a.$accent-color-secondary;
+                }
+            }
+        }
+
+        &__primary{
+            //Dark button
+            &--dark{
+                background: a.$white-color;
+                color: a.colorCheck(a.$white-color);
+                &:hover{
+                    color: a.colorCheck(a.$white-color);
+                    background: a.$primary-light;
+                }
+            }
+        }
+
+       
+    }
+}

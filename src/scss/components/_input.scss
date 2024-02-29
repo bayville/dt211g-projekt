@@ -1,0 +1,6 @@
+@use '../abstracts/' as a;
+
+input[type="text"]{
+    height: calc(a.$base-padding * 4);
+    border-radius: a.$base-border-radius;
+}

@@ -1,0 +1,9 @@
+@use '../abstracts/' as a;
+
+body{
+    @include a.color-scheme(a.$scheme-default...);
+
+    @include a.dark-mode{
+        @include a.color-scheme(a.$scheme-dark...);
+    }
+}

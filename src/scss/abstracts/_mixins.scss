@@ -1,0 +1,20 @@
+@use 'breakpoints';
+
+@mixin reset-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@mixin color-scheme($bg, $text){
+    background-color: $bg;
+    color: $text;
+}
+
+@mixin dark-mode {
+  @media (prefers-color-scheme: dark) {@content;}
+}
+
+@mixin tablet {
+  @media (width < breakpoints.$breakpoint-m) {@content;}
+}

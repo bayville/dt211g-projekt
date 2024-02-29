@@ -1,0 +1,27 @@
+@use '../abstracts/' as a;
+
+header{
+    background-color: a.$accent-color;
+    color: a.$white-color;
+    padding-block: a.$base-padding * 1.5;
+
+    a {
+        color: a.$white-color;
+        text-decoration: none;
+    }
+
+    img{
+        max-width: 200px;
+    }
+    h1{
+        a{
+            animation: textColorPulse 5s infinite alternate backwards;
+        }
+        
+    }
+
+    @include a.dark-mode{
+        background-color: a.$accent-color-darkm;
+        color: a.colorCheck(darken(a.$accent-color-darkm, 30%));
+    }
+}

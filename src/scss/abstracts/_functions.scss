@@ -1,0 +1,9 @@
+@use 'variables' as a;
+
+@function colorCheck( $color ) {
+    @if ( lightness($color) > 50 ) {
+      @return a.$primary-dark; 
+    } @else {
+      @return a.$primary-light; 
+    }
+  }

@@ -1,0 +1,24 @@
+.team{
+    &__box{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    &__logo{
+        
+        &--large{
+            max-width: 200px;
+        }
+
+        &--medium{
+            max-width: 100px;
+        }
+
+        &--small{
+            max-width: 50px;
+        }
+    }
+}

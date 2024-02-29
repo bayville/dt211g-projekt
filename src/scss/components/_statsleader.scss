@@ -1,0 +1,87 @@
+@use '../abstracts/' as a;
+
+.statsleader{
+    max-width: 100%;
+    margin-inline: auto;
+    
+    a{
+        text-decoration: none;
+        color: inherit;
+    }
+    
+    //Card inside section/grid
+    &__card{
+    background-color: a.$primary-light;
+    filter: drop-shadow(3px 4px 5px rgba(0,0,0,.4));
+        //Top-section
+        &--top{
+            position: relative;
+            background-color: a.$accent-color-secondary;
+            display: flex;
+            min-height: 120px;
+
+            &--text{
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                padding: 0.7rem;
+
+                p{
+                    margin: -0.2rem;
+                }
+            }
+
+            &--name{
+                font-size: 1.25rem ;
+                font-weight: 700;
+            }
+
+            &--stat{
+                font-size: 1.875rem ;
+                font-weight: 700;
+            }
+
+            img{
+                position: absolute;
+                bottom:0;
+                right: 0;
+                max-width: 140px;
+
+            }
+        }
+        //End of top
+
+        //List section
+        &--list{
+            color: a.$primary-dark;
+            
+            &--item{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding-inline: 0.5rem;
+                min-height: 65px;
+                border-bottom: 1px solid #ADADAD;
+            }
+
+            &--rank{
+                font-weight: 700;
+            }
+
+            &--img{
+                max-width: 45px;
+                max-height: 45px;
+                border-radius: 50%;
+            }
+
+            &--stat{
+                font-weight: 700;
+                width: 25%;
+                display: flex;     
+                justify-content: flex-end;           
+            }
+        }
+        //End of list section
+
+    }
+}

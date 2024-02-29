@@ -1,0 +1,103 @@
+@use '../abstracts/' as a;
+
+.container--l {
+    width: min(100% - 2rem, a.$max-content-width);
+    margin-inline: auto;
+  }
+
+  .container--m {
+    width: min(100%, 700px);
+    margin-inline: auto;
+  }
+
+  .section{
+    margin-block: a.$section-margin;
+    padding-block: a.$section-padding;
+    
+    &__padding{
+      padding-block: a.$section-padding;
+
+      &--dark-bg{
+        @extend .section__padding;
+        background-color: a.$primary-dark;
+        color: a.$white-color;
+      }
+
+      &--blue-bg{
+        @extend .section__padding;
+        background-color: a.$accent-color;
+        color: a.$white-color;
+      }
+
+      &--light-bg{
+        @extend .section__padding;
+        background-color: a.$primary-light;
+        color: a.$primary-dark;
+      }
+
+  
+    }
+
+    &__margin{
+      margin-block: a.$section-margin;
+
+      &--dark-bg{
+        @extend .section__margin;
+        background-color: a.$primary-dark;
+        color: a.$white-color;
+      }
+
+      &--blue-bg{
+        @extend .section__margin;
+        background-color: a.$accent-color;
+        color: a.$white-color;
+      }
+
+      &--light-bg{
+        @extend .section__margin;
+        background-color: a.$primary-light;
+        color: a.$primary-dark;
+      }
+    }
+
+    &--dark-bg{
+      @extend .section;
+      background-color: a.$primary-dark;
+      color: a.$white-color;
+    }
+
+    &--blue-bg{
+      @extend .section;
+      background-color: a.$accent-color;
+      color: a.$white-color;
+    }
+
+    &--light-bg{
+      @extend .section;
+      background-color: a.$primary-light;
+      color: a.$primary-dark;
+    }
+
+
+  @include a.dark-mode {
+      &--light-bg{
+        background-color: a.$primary-light-darkm;
+        color: a.$primary-dark-darkm;
+      }
+
+    &__padding{
+      &--light-bg{
+        background-color: a.$primary-light-darkm;
+        color: a.$primary-dark-darkm;
+      }
+    }
+
+    &__margin{
+      &--light-bg{
+        background-color: a.$primary-light-darkm;
+        color: a.$primary-dark-darkm;
+      }
+    }
+  }
+}
+

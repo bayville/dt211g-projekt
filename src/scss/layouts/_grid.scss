@@ -1,0 +1,22 @@
+@use '../abstracts/' as a;
+
+.grid{
+    display: grid;
+    gap: 3.75rem;
+    
+    &__auto{
+        @extend .grid;
+        grid-template-columns: repeat( auto-fit, minmax(calc(300px), 1fr) );
+        
+        @media (width < a.$breakpoint-s) {
+            grid-template-columns: repeat( auto-fit, minmax(100%, 1fr) );
+            gap: 2rem;
+        }
+    }
+
+    &__teams{
+        @extend .grid;
+        grid-template-columns: repeat( auto-fit, minmax(calc(120px), 1fr) );
+        gap: 2rem;
+    }
+}

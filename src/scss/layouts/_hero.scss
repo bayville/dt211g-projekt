@@ -1,0 +1,48 @@
+@use '../abstracts/' as a;
+.hero{
+    display: flex;
+    justify-content: space-between;
+    padding-inline: 2rem;
+
+    &--title{
+        font-size: 5rem;
+        text-transform: uppercase;
+        max-width:60%;
+        @media (width < a.$breakpoint-m) {
+            font-size: 2.8125rem;
+        }
+    } 
+
+    &--text{
+        width: 60%;
+        p{
+            max-width: 60ch;
+            padding-block: a.$base-padding;
+        }
+    }
+
+
+    &--img{
+        img{
+            max-width: 450px;
+        }
+    }
+        
+    @media (width < a.$breakpoint-m) {
+        flex-direction: column-reverse;
+        align-items: center;
+        gap: 2rem;
+        padding-inline: 0;
+
+        &--title{
+            max-width: 100%;
+            font-size: 2.8125rem;
+  
+        } 
+
+        &--text{
+            width: 100%;
+        }
+    }
+
+}
