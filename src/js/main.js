@@ -254,9 +254,8 @@ async function fetchWikiContent(baseURL, searchQuery) {
 }
 
 
-
-renderStatsCards("goals", statsLeaderGoalsEl);
 renderStatsCards("points", statsLeaderPointsEl);
+renderStatsCards("goals", statsLeaderGoalsEl);
 renderStatsCards("assists", statsLeaderAssistsEl);
 renderStatsCards("plusMinus", statsLeaderPlusMinusEl);
 
