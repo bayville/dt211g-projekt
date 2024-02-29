@@ -25,58 +25,9 @@ const playerID = urlParams.get('playerid'); // Get the player ID from the query 
 const baseURL = "https://fetch-playground.netlify.app"; // Base URL for API requests used for local production
 
 
-
-
-// async function fetchNHLTeams(baseURL, teamID) {
-//   try {
-//       let teamsData = sessionStorage.getItem('NHLTeams');
-//     if (teamsData) {
-//       teamsData = JSON.parse(teamsData);
-//       console.log("Fetched teams from session storage:");
-//       console.log(teamsData);
-//       return teamsData;
-//     } else {
-//       const response = await fetch(`${baseURL}/.netlify/functions/apidata?url=https://api-web.nhle.com/v1/standings/now`);
-//       teamsData = await response.json();
-//       console.log("Fetched teams from API:");
-//       console.log(teamsData);
-//       sessionStorage.setItem('NHLTeams', JSON.stringify(teamsData));
-//       return teamsData;
-//     }
-//     if (teamID) {
-//       const currentTeam = teamsData.standings.find(data => data.teamAbbrev.default == teamID);
-//       console.log("Filtered team:", currentTeam.teamName.default);
-//       const teamName = currentTeam.teamName.default;
-//       teamInfoEl.innerHTML += `<h1>${teamName}</h1>`
-
-//       document.title += teamName;
-//       const cleanTeamName = teamName.replace(/é/g, 'e');
-//       fetchWikiContent(baseURL, cleanTeamName);
-//       fetchNHLRoster(baseURL, teamID);
-//     }
-
-//     //If teamgrid element exist, render team grid.
-//     if (teamGridEl) { 
-//       const sortedTeamsData = teamsData.standings.toSorted((a, b) => a.teamName.default.localeCompare(b.teamName.default)); //Sort teams alphabetical
-//       sortedTeamsData.forEach(team => {
-//         teamGridEl.innerHTML += `
-//         <!-- Team ${team.teamAbbrev.default} -->
-//         <a href="/teams.html?teamid=${team.teamAbbrev.default}" class="team__box">
-//           <img class="team__logo--medium" src="${team.teamLogo}" alt="">
-//           <p class="small">${team.teamName.default}</p>
-//         </a>
-//         <!-- Next team -->
-//         `
-//       });
-//     }
-//   } catch (error) {
-//     console.error("Error: ", error);
-//   }
-// }
-
 async function renderTeamsGrid(){
   try{
-    const teamsData = await fetchNHLTeams();
+    const teamsData = await fetchNHLTeams(baseURL);
     console.log(teamsData);
   const sortedTeamsData = teamsData.standings.toSorted((a, b) => a.teamName.default.localeCompare(b.teamName.default)); //Sort teams alphabetical
   sortedTeamsData.forEach(team => {
@@ -97,7 +48,7 @@ async function renderTeamsGrid(){
 async function renderNHLTeam(teamID){
   try{
     console.log(teamID);
-    const teamsData = await fetchNHLTeams();
+    const teamsData = await fetchNHLTeams(baseURL);
     console.log(teamsData.standings);
     const currentTeam = teamsData.standings.find(data => data.teamAbbrev.default == teamID);
       console.log(currentTeam);
@@ -165,8 +116,6 @@ async function renderStatsCards(statType, statElement) {
 }
 
 
-
-
 // Fetch players
 async function fetchNHLPlayer(baseURL, playerID){
   try{
@@ -220,7 +169,6 @@ async function fetchNHLPlayer(baseURL, playerID){
     console.error("Error: ", error);
   }
 }
-
 
 
 async function fetchNHLRoster(baseURL, teamAbb){
@@ -293,8 +241,6 @@ async function fetchWikiContent(baseURL, searchQuery) {
       console.log(pageContent); // Handle the response data here
       sessionStorage.setItem(`wiki-${searchQuery}`, JSON.stringify(pageContent));
     }
-
-
 
     
     if (teamInfoEl) {
