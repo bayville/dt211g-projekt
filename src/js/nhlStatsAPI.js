@@ -22,13 +22,13 @@ async function fetchNHLTeams(baseURL) {
   }
 }
 
-
 async function fetchNHLStatsLeaders() {
   try {
     let statsLeaderData = sessionStorage.getItem('statsLeaders');
     if (statsLeaderData) {
       statsLeaderData = JSON.parse(statsLeaderData);
       console.log("Fetched statsleaders from session storage:");
+      console.log(statsLeaderData);
       return statsLeaderData;
     } else {
       const response = await fetch(`${baseURL}/.netlify/functions/apidata?url=https://api-web.nhle.com/v1/skater-stats-leaders/current`);
@@ -43,4 +43,27 @@ async function fetchNHLStatsLeaders() {
   }
 }
 
-export { fetchNHLStatsLeaders, fetchNHLTeams };
+async function fetchNHLRoster(baseURL, teamAbb) {
+  try {
+    let rosterData = sessionStorage.getItem(`tr-${teamAbb}`); // Get rosterData from sessionStorage if it exists.
+    if (rosterData) {
+      rosterData = JSON.parse(rosterData);
+      console.log("Fetched roster from session storage:");
+      console.log(rosterData);
+      return rosterData; // Return rosterData if fetched from sessionStorage.
+    } else {
+      const response = await fetch(`${baseURL}/.netlify/functions/apidata?url=https://api-web.nhle.com/v1/roster/${teamAbb}/current`);
+      rosterData = await response.json();
+      console.log("Fetched roster from API:");
+      console.log(rosterData);
+      sessionStorage.setItem(`tr-${teamAbb}`, JSON.stringify(rosterData));
+      return rosterData; // Return rosterData fetched from API.
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    return null; // Return null if there's an error fetching the rosterData.
+  }
+}
+
+
+export {fetchNHLStatsLeaders, fetchNHLTeams, fetchNHLRoster};

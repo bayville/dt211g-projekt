@@ -79,3 +79,10 @@ h6{ font-size: $font-size-h6; margin:0; }
 .white--text{
     color: a.$white-color;
 }
+
+
+@media (width < a.$breakpoint-s) {
+    h1{
+        font-size: $base-font-size * 1.875 ;
+    }
+}

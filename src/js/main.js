@@ -1,5 +1,5 @@
 import './navigation';
-import { fetchNHLStatsLeaders, fetchNHLTeams } from './nhlStatsAPI';
+import { fetchNHLStatsLeaders, fetchNHLTeams, fetchNHLRoster } from './nhlStatsAPI';
 
 const table = document.getElementById('table'); //Get div to render data
 const tableP = document.getElementById('tableP'); //Get div to render data
@@ -8,17 +8,21 @@ const teamRosterEl = document.getElementById('teamRoster');//Get div to render d
 const teamRosterGoaliesEl = document.getElementById('teamRosterGoalies'); //Get div to render data
 const teamRosterDefensemenEl = document.getElementById('teamRosterDefensemen'); //Get div to render data
 const teamRosterForwardsEl = document.getElementById('teamRosterForwards'); //Get div to render data
-const teamGridEl = document.getElementById('teamGrid');
+let teamGridEl = document.getElementById('teamGrid');
 const statsLeaderGoalsEl = document.getElementById('statsLeaderGoals');
 const statsLeaderPointsEl = document.getElementById('statsLeaderPoints');
 const statsLeaderAssistsEl = document.getElementById('statsLeaderAssists');
 const statsLeaderPlusMinusEl = document.getElementById('statsLeaderPlusMinus');
-
-let playerName;
+const teamStatsbarEl = document.getElementById('teamStatsbar');
+const teamLogoEl = document.getElementById('teamLogo');
+const teamNameEl = document.getElementById('teamName');
+const wikiDataEl = document.getElementById('wikiData')
+const teamsPageMainEl = document.getElementById('teamsPageMain');
 
 // Extract the query string parameters from the URL
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
+const pathName = window.location.pathname;
 
 const teamID = urlParams.get('teamid'); // Get the team ID from the query string parameters
 const playerID = urlParams.get('playerid'); // Get the player ID from the query string parameters
@@ -29,17 +33,17 @@ async function renderTeamsGrid(){
   try{
     const teamsData = await fetchNHLTeams(baseURL);
     console.log(teamsData);
-  const sortedTeamsData = teamsData.standings.toSorted((a, b) => a.teamName.default.localeCompare(b.teamName.default)); //Sort teams alphabetical
-  sortedTeamsData.forEach(team => {
-    teamGridEl.innerHTML += `
-    <!-- Team ${team.teamAbbrev.default} -->
-    <a href="/teams.html?teamid=${team.teamAbbrev.default}" class="team__box">
-      <img class="team__logo--medium" src="${team.teamLogo}" alt="">
-      <p class="small">${team.teamName.default}</p>
-    </a>
-    <!-- Next team -->
-    `
-  });
+    const sortedTeamsData = teamsData.standings.toSorted((a, b) => a.teamName.default.localeCompare(b.teamName.default)); //Sort teams alphabetical
+    sortedTeamsData.forEach(team => {
+      teamGridEl.innerHTML += `
+      <!-- Start of ${team.teamAbbrev.default} -->
+      <a href="/teams.html?teamid=${team.teamAbbrev.default}" class="team__box">
+        <img class="team__logo--medium" src="${team.teamLogo}" alt="">
+        <p class="small">${team.teamName.default}</p>
+      </a>
+      <!-- End of ${team.teamAbbrev.default} -->
+      `
+    });
 } catch (error) {
   console.error('Error:', error);
 }
@@ -47,23 +51,84 @@ async function renderTeamsGrid(){
 
 async function renderNHLTeam(teamID){
   try{
-    console.log(teamID);
+    console.log("TeamID:", teamID);
     const teamsData = await fetchNHLTeams(baseURL);
-    console.log(teamsData.standings);
+
+    //Find current team
     const currentTeam = teamsData.standings.find(data => data.teamAbbrev.default == teamID);
-      console.log(currentTeam);
-      console.log("Filtered team:", currentTeam.teamName.default);
-      const teamName = currentTeam.teamName.default;
-      document.title += teamName;
-      const cleanTeamName = teamName.replace(/é/g, 'e');
-      fetchWikiContent(baseURL, cleanTeamName);
-      fetchNHLRoster(baseURL, teamID);
+    const teamRank = (teamsData.standings.findIndex(data => data.teamAbbrev.default === teamID) + 1);
+
+    console.log(currentTeam);
+    console.log("Filtered team:", currentTeam.teamName.default);
+    
+    //Render teamname and logo
+    const teamName = currentTeam.teamName.default;
+    teamNameEl.innerText = `${teamName}`;
+    teamLogoEl.innerHTML += `<img src="${currentTeam.teamLogo}" alt="${teamName} logo">`;
+    
+    //Change document title    
+    document.title +=` | ${teamName}` ;
+    
+    //Clean team name from é and fetch Wikipedia content
+    const cleanTeamName = teamName.replace(/é/g, 'e');
+    fetchWikiContent(baseURL, cleanTeamName);
+
+    //Convert seasonId to string and format it
+    const seasonId = currentTeam.seasonId.toString();
+    const formattedSeasonId = `${seasonId.slice(0, 4)}-${seasonId.slice(4)}`;
+    console.log(formattedSeasonId);
+
+    //Render Statsbar content
+    teamStatsbarEl.innerHTML += `
+      <h2>${formattedSeasonId}</h2>
+      
+      <div class="statsbar__stats">
+
+        <!-- Rank -->
+        <div class="statsbar__stats--box">
+          <p class="smallest">Rank</p>
+          <p class="statsbar__stats--box--stat">${teamRank}</p>
+        </div>
+
+        <!-- Games played -->
+        <div class="statsbar__stats--box">
+          <p class="smallest">GP</p>
+          <p class="statsbar__stats--box--stat">${currentTeam.gamesPlayed}</p>
+        </div>
+        
+        <!-- Wins -->
+        <div class="statsbar__stats--box">
+          <p class="smallest">W</p>
+          <p class="statsbar__stats--box--stat">${currentTeam.wins}</p>
+        </div>
+
+        <!-- Losses -->
+        <div class="statsbar__stats--box">
+          <p class="smallest">L</p>
+          <p class="statsbar__stats--box--stat">${currentTeam.losses}</p>
+        </div>
+
+        <!-- OT Losses -->
+        <div class="statsbar__stats--box">
+          <p class="smallest">OTL</p>
+          <p class="statsbar__stats--box--stat">${currentTeam.otLosses}</p>
+        </div>
+
+        <!-- OT Losses -->
+        <div class="statsbar__stats--box">
+          <p class="smallest">P</p>
+          <p class="statsbar__stats--box--stat">${currentTeam.points}</p>
+        </div>
+        
+
+      </div>
+    `;
+
+    renderRoster(baseURL, teamID);
     } catch (error) {
     console.error('Error:', error);
   }
 }
-
-
 
 async function renderStatsCards(statType, statElement) {
   try {
@@ -171,42 +236,39 @@ async function fetchNHLPlayer(baseURL, playerID){
 }
 
 
-async function fetchNHLRoster(baseURL, teamAbb){
-  try{
-    let rosterData = sessionStorage.getItem(`tr-${teamAbb}`); //Get rosterData from sessionstorage if it exists.
-    if (rosterData) {
-      rosterData = JSON.parse(rosterData)
-      console.log("Fetched roster from session storage:");
-      console.log(rosterData);
-    } else{
-      const response = await fetch(`${baseURL}/.netlify/functions/apidata?url=https://api-web.nhle.com/v1/roster/${teamAbb}/current`);
-      rosterData = await response.json();
-      console.log("Fetched roster from api:");
-      console.log(rosterData);
-      sessionStorage.setItem(`tr-${teamAbb}`, JSON.stringify(rosterData));
+async function renderRoster(baseURL, teamID) {
+  try {
+    const rosterData = await fetchNHLRoster(baseURL, teamID);
+
+    if (rosterData){
+      // Render each category of players
+      rosterData.goalies.forEach(goalie => {
+        // teamRosterGoaliesEl.innerHTML += `
+        // <article><img src="${goalie.headshot}" alt="Portrait of ${goalie.firstName.default} ${goalie.lastName.default}"><h4><a href="players.html?playerid=${goalie.id}"> ${goalie.firstName.default} ${goalie.lastName.default}</h4></a></article>
+        // `;
+        console.log("Rendering goalie:", goalie);
+      });
+
+      rosterData.defensemen.forEach(defender => {
+        // teamRosterDefensemenEl.innerHTML += `
+        // <article><img src="${defender.headshot}" alt="Portrait of ${defender.firstName.default} ${defender.lastName.default}"><h4><a href="players.html?playerid=${defender.id}"> ${defender.firstName.default} ${defender.lastName.default}</h4></a></article>
+        // `;
+        console.log("Rendering defender:", defender);
+      });
+
+      rosterData.forwards.forEach(forward => {
+        // teamRosterForwardsEl.innerHTML += `
+        // <article><img src="${forward.headshot}" alt="Portrait of ${forward.firstName.default} ${forward.lastName.default}"><h4><a href="players.html?playerid=${forward.id}"> ${forward.firstName.default} ${forward.lastName.default}</h4></a></article>
+        // `;
+        console.log("Rendering forward:", forward);
+      });
     }
-
-  // rosterData.goalies.forEach(goalie => {
-  //   teamRosterGoaliesEl.innerHTML += `
-  //   <article><img src="${goalie.headshot}" alt="Portrait of ${goalie.firstName.default} ${goalie.lastName.default}"><h4><a href="players.html?playerid=${goalie.id}"> ${goalie.firstName.default} ${goalie.lastName.default}</h4></a></article>
-  //   `
-  // })
-
-  // rosterData.defensemen.forEach(defender => {
-  //   teamRosterDefensemenEl.innerHTML += `
-  //   <article><img src="${defender.headshot}" alt="Portrait of ${defender.firstName.default} ${defender.lastName.default}"><h4><a href="players.html?playerid=${defender.id}"> ${defender.firstName.default} ${defender.lastName.default}</h4></a></article>
-  //   `
-  // })
-
-  // rosterData.forwards.forEach(forwards => {
-  //   teamRosterForwardsEl.innerHTML += `
-  //   <article><img src="${forwards.headshot}" alt="Portrait of ${forwards.firstName.default} ${forwards.lastName.default}"><h4><a href="players.html?playerid=${forwards.id}"> ${forwards.firstName.default} ${forwards.lastName.default}</h4></a></article>
-  //   `
-  // })  
-  } catch (error){
+  } catch (error) {
     console.error('Error:', error);
   }
+
 }
+
 
   
 
@@ -243,8 +305,8 @@ async function fetchWikiContent(baseURL, searchQuery) {
     }
 
     
-    if (teamInfoEl) {
-      teamInfoEl.innerHTML += `<p>${pageContent}</p>`;
+    if (wikiDataEl) {
+      wikiDataEl.innerHTML += `${pageContent}`;
     }
     
     return pageContent;
@@ -253,17 +315,32 @@ async function fetchWikiContent(baseURL, searchQuery) {
   }
 }
 
-
+if (statsLeaderGoalsEl) {
 renderStatsCards("points", statsLeaderPointsEl);
 renderStatsCards("goals", statsLeaderGoalsEl);
 renderStatsCards("assists", statsLeaderAssistsEl);
 renderStatsCards("plusMinus", statsLeaderPlusMinusEl);
-
+}
 
   if (teamID){
     renderNHLTeam(teamID.toUpperCase());
-  } else {
+  } else if (!teamID && teamsPageMainEl) {
+    console.log('RenderTeamsGrid Function');
+    teamsPageMainEl.innerHTML = `
+      <div class="section__padding--light-bg">
+        <section class="container--l" aria-label="NHL-lag">
+          <h2 class="line-heading--small">Lag</h2>
+          <!-- Popluated by JavaScript after fetch from NHL API/Session Storage -->
+          <div class="grid__teams section__padding" id="teamGrid"></div>
+        </section>
+      </div>
+    `;
+    teamGridEl = document.getElementById('teamGrid');
     renderTeamsGrid();
+  }
+
+  if (teamGridEl && (pathName == "/")){
+      renderTeamsGrid();
   }
   
   if (playerID){

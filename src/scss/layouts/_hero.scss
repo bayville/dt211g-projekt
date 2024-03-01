@@ -21,14 +21,25 @@
         }
     }
 
-
     &--img{
+        align-self: center;
         img{
             max-width: 450px;
         }
+
+        &--team{
+            align-self: center;
+            width: 100%;
+            max-width: 400px;
+
+            img{
+                max-width: 450px;
+            }
+    
+        }
     }
         
-    @media (width < a.$breakpoint-m) {
+    @media (width <= a.$breakpoint-m) {
         flex-direction: column-reverse;
         align-items: center;
         gap: 2rem;
@@ -45,4 +56,9 @@
         }
     }
 
+}
+
+
+#wikiData{
+    padding-block: 0;
 }
