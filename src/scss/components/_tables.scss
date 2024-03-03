@@ -1,0 +1,63 @@
+@use '../abstracts/' as a;
+
+.roster__table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    text-align: center;
+
+    
+
+    &:first-child {
+      text-align: left;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid gray;
+      &:nth-child(odd) {
+        background-color: a.$primary-light;
+      }
+
+      &:hover {
+        // background-color: black;
+      }
+    }
+
+    td {
+      padding-block: a.$base-padding;
+
+      &:first-child {
+        font-weight: 700;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        width: 60%; // Adjust this value as needed to allocate more space to the first column
+
+        a {
+          width: 100%;
+          justify-content: flex-start;
+          max-width: fit-content;
+        }
+      }
+
+      &:not(:first-child) {
+        width: calc((100% - 60%) / 5); // Divide the remaining space equally among the other columns
+      }
+
+      a {
+        text-decoration: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: inherit;
+
+        &:first-child {
+          // gap: 1rem;
+        }
+      }
+    }
+  }
+}

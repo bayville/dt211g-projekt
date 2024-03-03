@@ -35,6 +35,11 @@
         color: a.$primary-dark;
       }
 
+      &--white-bg{
+        @extend .section__padding;
+        background-color: a.$white-color;
+        color: a.$primary-dark;
+      }
   
     }
 
@@ -57,6 +62,12 @@
         @extend .section__margin;
         background-color: a.$primary-light;
         color: a.$primary-dark;
+
+        &--white-bg{
+          @extend .section__margin;
+          background-color: a.$white-color;
+          color: a.$primary-dark;
+        }
       }
     }
 
@@ -75,6 +86,12 @@
     &--light-bg{
       @extend .section;
       background-color: a.$primary-light;
+      color: a.$primary-dark;
+    }
+
+    &--white-bg{
+      @extend .section;
+      background-color: a.$white-color;
       color: a.$primary-dark;
     }
 

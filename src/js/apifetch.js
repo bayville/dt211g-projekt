@@ -1,5 +1,6 @@
 // nhlStatsAPI.js
 const baseURL = "https://fetch-playground.netlify.app"; // Base URL for API requests used for local production
+const wikiDataEl = document.getElementById('wikiData')
 
 
 async function fetchNHLTeams(baseURL) {
@@ -66,4 +67,49 @@ async function fetchNHLRoster(baseURL, teamAbb) {
 }
 
 
-export {fetchNHLStatsLeaders, fetchNHLTeams, fetchNHLRoster};
+
+async function fetchAndRenderWikiContent(baseURL, searchQuery) {
+  const apiUrl = "https://sv.wikipedia.org/w/api.php";
+  const params = new URLSearchParams({
+    action: "query",
+    format: "json",
+    prop: "extracts",
+    exintro: true,
+    explaintext: true,
+    titles: searchQuery
+  });
+
+  const apiUrlEncoded = encodeURIComponent(`${apiUrl}?${params}`);
+  const fetchUrl = `${baseURL}/.netlify/functions/apidata?url=${apiUrlEncoded}`;
+  
+  try {
+    let pageContent = sessionStorage.getItem(`wiki-${searchQuery}`);
+    if (pageContent) {
+      pageContent = JSON.parse(pageContent); 
+      console.log("Fetched wikidata from session storage:");
+      console.log(pageContent);
+    } else {
+      console.log("Page content is not available in sessions storage");
+      const response = await fetch(fetchUrl);   
+      const data = await response.json();
+      const pages = data.query.pages;
+      const pageId = Object.keys(pages)[0]; // Get the page ID
+      pageContent = pages[pageId].extract; // Get the page content
+      console.log("Fetched wikidata from API:");
+      console.log(pageContent); // Handle the response data here
+      sessionStorage.setItem(`wiki-${searchQuery}`, JSON.stringify(pageContent));
+    }
+
+    
+    if (wikiDataEl) {
+      wikiDataEl.innerHTML += `${pageContent}`;
+    }
+    
+    return pageContent;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+
+export {fetchNHLStatsLeaders, fetchNHLTeams, fetchNHLRoster, fetchAndRenderWikiContent};
