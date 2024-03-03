@@ -1,7 +1,10 @@
 // nhlStatsAPI.js
-const baseURL = "https://fetch-playground.netlify.app"; // Base URL for API requests used for local production
-const wikiDataEl = document.getElementById('wikiData')
+import {goaileTableEl, defensemenTableEl, forwardTableEl, teamGridEl, statsLeaderGoalsEl, statsLeaderPointsEl, statsLeaderAssistsEl,statsLeaderPlusMinusEl, teamStatsbarEl, teamLogoEl, teamNameEl, teamsPageMainEl, playersPageMainEl, queryString, pathName, teamID, playerID, baseURL, wikiDataEl} from './variables';
+import { randomPlayer } from './playerids';
 
+
+
+//Fetch NHL teams
 
 async function fetchNHLTeams(baseURL) {
   try {
@@ -23,6 +26,10 @@ async function fetchNHLTeams(baseURL) {
   }
 }
 
+
+
+//Fetch Statsleaders
+
 async function fetchNHLStatsLeaders() {
   try {
     let statsLeaderData = sessionStorage.getItem('statsLeaders');
@@ -43,6 +50,10 @@ async function fetchNHLStatsLeaders() {
     return error;
   }
 }
+
+
+
+//Fetch NHLRosters
 
 async function fetchNHLRoster(baseURL, teamAbb) {
   try {
@@ -68,6 +79,52 @@ async function fetchNHLRoster(baseURL, teamAbb) {
 
 
 
+//Fetch players
+
+async function fetchNHLPlayer(baseURL, playerID){
+  try{
+    let playerData = sessionStorage.getItem(`p-${playerID}`);
+    if (playerData) {
+      playerData = JSON.parse(playerData); 
+      console.log("Fetched player from session storage:");
+      // console.log(playerData);
+    } else{
+      const response = await fetch( `${baseURL}/.netlify/functions/apidata?url=https://api-web.nhle.com/v1/player/${playerID}/landing`);
+      playerData = await response.json();
+      console.log("Fetched player from api:");
+      // console.log(playerData);
+      sessionStorage.setItem(`p-${playerID}`, JSON.stringify(playerData));
+    }
+    
+    if (playerData.lastName.sv) {
+        if (playerData.firstName.sv) {
+          playerName = `${playerData.firstName.sv} ${playerData.lastName.sv}`;
+        }else {
+        playerName = `${playerData.firstName.default} ${playerData.lastName.sv}`;
+        }
+      console.log("SV-name");
+    } else if (playerData.lastName.sk) {
+        if (playerData.firstName.sk) {
+          playerName = `${playerData.firstName.sk} ${playerData.lastName.sk}`;
+        }else {
+        playerName = `${playerData.firstName.default} ${playerData.lastName.sk}`;
+        }
+        console.log("SK-name");
+    } else {
+      playerName = `${playerData.firstName.default} ${playerData.lastName.default}`;
+      console.log("Default-name");
+    }
+    fetchAndRenderWikiContent(baseURL, `${playerName}`);
+    return playerData, playerName; 
+    
+  } catch (error){
+    console.error("Error: ", error);
+  }
+}
+
+
+//Fetch and Render Wiki Content
+
 async function fetchAndRenderWikiContent(baseURL, searchQuery) {
   const apiUrl = "https://sv.wikipedia.org/w/api.php";
   const params = new URLSearchParams({
@@ -84,23 +141,26 @@ async function fetchAndRenderWikiContent(baseURL, searchQuery) {
   
   try {
     let pageContent = sessionStorage.getItem(`wiki-${searchQuery}`);
+
     if (pageContent) {
       pageContent = JSON.parse(pageContent); 
       console.log("Fetched wikidata from session storage:");
       console.log(pageContent);
+
     } else {
       console.log("Page content is not available in sessions storage");
       const response = await fetch(fetchUrl);   
       const data = await response.json();
       const pages = data.query.pages;
       const pageId = Object.keys(pages)[0]; // Get the page ID
+
       pageContent = pages[pageId].extract; // Get the page content
       console.log("Fetched wikidata from API:");
       console.log(pageContent); // Handle the response data here
       sessionStorage.setItem(`wiki-${searchQuery}`, JSON.stringify(pageContent));
     }
 
-    
+    //If Wiki data element exists, render the pageContent to element
     if (wikiDataEl) {
       wikiDataEl.innerHTML += `${pageContent}`;
     }
@@ -112,4 +172,41 @@ async function fetchAndRenderWikiContent(baseURL, searchQuery) {
 }
 
 
-export {fetchNHLStatsLeaders, fetchNHLTeams, fetchNHLRoster, fetchAndRenderWikiContent};
+//Pre fetch team - gets called on hover of team in teamsgrid
+
+async function preFetchTeam(teamID, teamsData){
+  await fetchNHLRoster(baseURL, teamID);
+  //Find current team
+  const currentTeam = teamsData.standings.find(data => data.teamAbbrev.default == teamID);
+
+  console.log(currentTeam);
+  console.log("Filtered team:", currentTeam.teamName.default);
+  
+  //Render teamname and logo
+  const teamName = currentTeam.teamName.default;
+  
+  //Clean team name from é and fetch Wikipedia content
+  const cleanTeamName = teamName.replace(/é/g, 'e');
+  fetchAndRenderWikiContent(baseURL, cleanTeamName);
+}
+
+
+
+//Fetch a random player
+
+async function fetchRandomPlayer(){
+  try{
+    const randomPlayerID = randomPlayer(); //Get a random playerid from playerids. js
+    console.log("randomplayerID:", randomPlayerID);
+    const playerData = await fetchNHLPlayer(baseURL, randomPlayerID);
+    
+    console.log(playerData);
+  }
+  catch (error){
+    console.error('Ingen spelare hittad:', error);
+  }
+}
+  
+
+
+export {fetchNHLStatsLeaders, fetchNHLTeams, fetchNHLRoster, fetchNHLPlayer, fetchAndRenderWikiContent, preFetchTeam, fetchRandomPlayer};
