@@ -4,13 +4,16 @@ import { goaileTableEl, defensemenTableEl, forewardTableEl, teamGridEl, statsLea
 
 
 
-async function renderTeamsGrid(){
+async function renderTeamsGrid(el){
 try{
     const teamsData = await fetchNHLTeams(baseURL);
     console.log(teamsData);
-    const sortedTeamsData = teamsData.standings.toSorted((a, b) => a.teamName.default.localeCompare(b.teamName.default)); //Sort teams alphabetical
+    const sortedTeamsData = teamsData.standings.toSorted((a, b) => a.teamName.default.localeCompare(b.teamName.default)); //Sort teams alphabeticals
+    
+    
+ 
     sortedTeamsData.forEach(team => {
-    teamGridEl.innerHTML += `
+    el.innerHTML += `
     <!-- Start of ${team.teamAbbrev.default} -->
     <a href="/teams.html?teamid=${team.teamAbbrev.default}" class="team__box" id="${team.teamAbbrev.default}">
         <img class="team__logo--medium" src="${team.teamLogo}" alt="">

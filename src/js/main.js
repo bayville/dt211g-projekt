@@ -1,7 +1,9 @@
 import './navigation';
+import {goaileTableEl, defensemenTableEl, forewardTableEl, teamGridEl, statsLeaderGoalsEl, statsLeaderPointsEl, statsLeaderAssistsEl,statsLeaderPlusMinusEl, teamStatsbarEl, teamLogoEl, teamNameEl, teamsPageMainEl, playersPageMainEl, queryString, pathName, teamID, playerID, baseURL} from './variables';
 import {fetchNHLStatsLeaders, fetchNHLTeams, fetchNHLRoster, fetchNHLPlayer, fetchAndRenderWikiContent, preFetchTeam, fetchRandomPlayer} from './apifetch';
 import {renderTeamsGrid, renderNHLTeam, renderRoster, renderStatsCards} from './renderfunctions';
-import {goaileTableEl, defensemenTableEl, forewardTableEl, teamGridEl, statsLeaderGoalsEl, statsLeaderPointsEl, statsLeaderAssistsEl,statsLeaderPlusMinusEl, teamStatsbarEl, teamLogoEl, teamNameEl, teamsPageMainEl, playersPageMainEl, queryString, pathName, teamID, playerID, baseURL} from './variables';
+
+console.log(teamGridEl);
 
 
 
@@ -10,6 +12,7 @@ import {goaileTableEl, defensemenTableEl, forewardTableEl, teamGridEl, statsLead
 if (statsLeaderGoalsEl) {
 renderStatsCards();
 }
+
 
   if (teamID){
     renderNHLTeam(teamID.toUpperCase());
@@ -23,12 +26,15 @@ renderStatsCards();
         </section>
       </div>
     `;
-    teamGridEl = document.getElementById('teamGrid');
-    renderTeamsGrid();
+    let teamGrid = document.getElementById('teamGrid');
+    console.log(teamGrid);
+    renderTeamsGrid(teamGrid);
   }
 
+
+
   if (teamGridEl && (pathName == "/")){
-      renderTeamsGrid();
+      renderTeamsGrid(teamGridEl);
   }
   
 
