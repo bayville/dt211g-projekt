@@ -13,6 +13,10 @@ const teamNameEl = document.getElementById('teamName');
 const teamsPageMainEl = document.getElementById('teamsPageMain');
 const playersPageMainEl = document.getElementById('playersPageMain');
 const wikiDataEl = document.getElementById('wikiData')
+const playerHeaderInfoEl = document.getElementById('playerHeaderInfo');
+const playerplayerActionImgEl = document.getElementById('playerActionImg');
+const playerTeamRosterEl = document.getElementById('playerTeamRoster');
+const playerProfileInfoEl = document.getElementById('playerProfileInfo');
 
 // Extract the query string parameters from the URL
 const queryString = window.location.search;
@@ -24,4 +28,7 @@ const teamID = urlParams.get('teamid'); // Get the team ID from the query string
 const playerID = urlParams.get('playerid'); // Get the player ID from the query string parameters
 const baseURL = "https://fetch-playground.netlify.app"; // Base URL for API requests used for local production
 
-export {goaileTableEl, defensemenTableEl, forewardTableEl, teamGridEl, statsLeaderGoalsEl, statsLeaderPointsEl, statsLeaderAssistsEl,statsLeaderPlusMinusEl, teamStatsbarEl, teamLogoEl, teamNameEl, teamsPageMainEl, playersPageMainEl, queryString, pathName, teamID, playerID, baseURL, wikiDataEl}
+
+
+
+export {goaileTableEl, defensemenTableEl, forewardTableEl, teamGridEl, statsLeaderGoalsEl, statsLeaderPointsEl, statsLeaderAssistsEl,statsLeaderPlusMinusEl, teamStatsbarEl, teamLogoEl, teamNameEl, teamsPageMainEl, playersPageMainEl, queryString, pathName, teamID, playerID, baseURL, wikiDataEl, playerHeaderInfoEl, playerplayerActionImgEl, playerTeamRosterEl, playerProfileInfoEl}

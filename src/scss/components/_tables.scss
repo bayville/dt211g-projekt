@@ -61,3 +61,42 @@
     }
   }
 }
+
+
+.games__table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    text-align: center;
+
+    &:first-child {
+      text-align: left;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid gray;
+      &:nth-child(odd) {
+        background-color: a.$primary-light;
+      }
+
+      &:hover {
+        // background-color: black;
+      }
+    }
+
+    td {
+      padding-block: a.$base-padding;
+      text-align: center;
+      min-width: 1rem;
+
+      &:first-child {
+        text-align: left;
+      }
+
+    }
+    
+  }
+}

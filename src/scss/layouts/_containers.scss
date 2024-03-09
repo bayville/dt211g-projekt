@@ -70,6 +70,30 @@
         }
       }
     }
+    
+    &__bg{
+      &--dark-bg{
+        background-color: a.$primary-dark;
+        color: a.$white-color;
+      }
+  
+      &--blue-bg{
+        background-color: a.$accent-color;
+        color: a.$white-color;
+      }
+  
+      &--light-bg{
+        background-color: a.$primary-light;
+        color: a.$primary-dark;
+      }
+  
+      &--white-bg{
+        background-color: a.$white-color;
+        color: a.$primary-dark;
+      }
+
+    }
+
 
     &--dark-bg{
       @extend .section;

@@ -52,7 +52,6 @@ async function fetchNHLStatsLeaders() {
 }
 
 
-
 //Fetch NHLRosters
 
 async function fetchNHLRoster(baseURL, teamAbb) {
@@ -87,15 +86,16 @@ async function fetchNHLPlayer(baseURL, playerID){
     if (playerData) {
       playerData = JSON.parse(playerData); 
       console.log("Fetched player from session storage:");
-      // console.log(playerData);
+      console.log(playerData);
     } else{
       const response = await fetch( `${baseURL}/.netlify/functions/apidata?url=https://api-web.nhle.com/v1/player/${playerID}/landing`);
       playerData = await response.json();
       console.log("Fetched player from api:");
-      // console.log(playerData);
+      console.log(playerData);
       sessionStorage.setItem(`p-${playerID}`, JSON.stringify(playerData));
     }
     
+    //If Swedish or Skandinavian name exist use that, else use deafult
     if (playerData.lastName.sv) {
         if (playerData.firstName.sv) {
           playerName = `${playerData.firstName.sv} ${playerData.lastName.sv}`;
@@ -114,8 +114,9 @@ async function fetchNHLPlayer(baseURL, playerID){
       playerName = `${playerData.firstName.default} ${playerData.lastName.default}`;
       console.log("Default-name");
     }
+
     fetchAndRenderWikiContent(baseURL, `${playerName}`);
-    return playerData, playerName; 
+    return playerData; 
     
   } catch (error){
     console.error("Error: ", error);
@@ -200,7 +201,8 @@ async function fetchRandomPlayer(){
     console.log("randomplayerID:", randomPlayerID);
     const playerData = await fetchNHLPlayer(baseURL, randomPlayerID);
     
-    console.log(playerData);
+    console.log("Random player data:", playerData);
+    return (playerData);
   }
   catch (error){
     console.error('Ingen spelare hittad:', error);

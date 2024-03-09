@@ -1,12 +1,7 @@
 import './navigation';
 import {goaileTableEl, defensemenTableEl, forewardTableEl, teamGridEl, statsLeaderGoalsEl, statsLeaderPointsEl, statsLeaderAssistsEl,statsLeaderPlusMinusEl, teamStatsbarEl, teamLogoEl, teamNameEl, teamsPageMainEl, playersPageMainEl, queryString, pathName, teamID, playerID, baseURL} from './variables';
 import {fetchNHLStatsLeaders, fetchNHLTeams, fetchNHLRoster, fetchNHLPlayer, fetchAndRenderWikiContent, preFetchTeam, fetchRandomPlayer} from './apifetch';
-import {renderTeamsGrid, renderNHLTeam, renderRoster, renderStatsCards} from './renderfunctions';
-
-console.log(teamGridEl);
-
-
-
+import {renderTeamsGrid, renderNHLTeam, renderRoster, renderStatsCards, renderPlayer} from './renderfunctions';
 
 
 if (statsLeaderGoalsEl) {
@@ -40,13 +35,13 @@ renderStatsCards();
 
   if (!playerID && playersPageMainEl){
     console.log("Fetch Random player no id:");
-    fetchRandomPlayer();
+    renderPlayer();
   }  else if (playerID == "rand" ) {
     console.log("Fetch Random player id: rand");
-    fetchRandomPlayer();
+    renderPlayer();
   } else if (playerID){
     console.log("Fetch player");
-    fetchNHLPlayer(baseURL, playerID);
+    renderPlayer(playerID);
   }
 
 

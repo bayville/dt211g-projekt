@@ -1,0 +1,139 @@
+@use '../abstracts/' as a;
+.player{
+    background-color: a.$primary-dark;
+    color: a.colorCheck(a.$primary-dark);
+    
+    &__heading{
+        display: flex;
+    }
+
+    &__flex--wrapper{
+        display: flex;
+        flex-direction: column;
+    }
+    
+    &__header{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-block: a.$base-padding;
+
+        select{
+            max-height: 3rem;
+            padding: a.$base-padding;
+            
+        }
+
+        &--info{
+            display: flex;
+            
+        }
+    }
+    &__action--image{
+        object-fit: cover;
+        object-position: top;
+        max-height: 50dvh;
+    }
+    &__banner{
+        display: grid;
+        grid-template-columns: 2fr 4fr;
+        gap: 2rem;
+
+        &--info{
+            max-width: 21.9em;
+            display: grid;
+            grid-template-columns: 2fr 3fr;
+            gap: 0.5rem;
+            align-items: center;
+
+            img{
+                border-radius: 50%;
+                background-color: white;
+                max-width: 8em;
+            }
+
+            p{
+                margin: 0;
+            }
+
+            div{
+                border-right: 2px solid a.$accent-color-teriteray;
+                width: 100%;
+            }
+        }
+
+        &--stats{
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+    }
+
+    &__bio{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        section{
+            padding-inline: calc(a.$base-padding * 2);
+            max-width: calc(a.$max-content-width / 2);
+        }
+        
+        #playerBio{
+            margin-left: auto;
+        }
+
+        #playerGameLog{
+            margin-right: auto;
+        }
+
+    }
+    
+    @media (width <= a.$breakpoint-m) {
+
+        &__heading{
+            flex-direction: column-reverse;
+            align-items: center;
+            justify-content: center;
+        }
+
+        &__flex--wrapper{
+            display: flex;
+            flex-direction: column-reverse;
+        }
+
+
+        &__header{
+            flex-direction: column;
+            align-items: stretch;
+            gap: 1rem;
+            border-bottom: 2px solid a.$accent-color-teriteray;
+            padding-bottom: 3rem;
+
+            &--info{
+                justify-content: center;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        &__banner{
+            grid-template-columns: 1fr;
+            gap: 3rem;
+
+            &--info{
+                max-width: 100%;
+                border-bottom: 2px solid a.$accent-color-teriteray;
+                padding-bottom: 3rem;
+
+                div{
+                    border-right: 0;
+                }
+            }
+        }
+
+        &__bio{
+            grid-template-columns: 1fr;
+        }
+    }
+
+}

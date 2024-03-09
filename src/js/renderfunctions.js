@@ -1,9 +1,16 @@
-import {fetchNHLStatsLeaders, fetchNHLTeams, fetchNHLRoster, fetchNHLPlayer, fetchAndRenderWikiContent, preFetchTeam} from './apifetch';
-import { randomPlayer } from './playerids';
-import { goaileTableEl, defensemenTableEl, forewardTableEl, teamGridEl, statsLeaderGoalsEl, statsLeaderPointsEl, statsLeaderAssistsEl,statsLeaderPlusMinusEl, teamStatsbarEl, teamLogoEl, teamNameEl, teamsPageMainEl, playersPageMainEl, queryString, pathName, teamID, playerID, baseURL } from './variables';
+import {fetchNHLStatsLeaders, fetchNHLTeams, fetchNHLRoster, fetchNHLPlayer, fetchAndRenderWikiContent, preFetchTeam, fetchRandomPlayer} from './apifetch';
+import { goaileTableEl, defensemenTableEl, forewardTableEl, teamGridEl, statsLeaderGoalsEl, statsLeaderPointsEl, statsLeaderAssistsEl,statsLeaderPlusMinusEl, teamStatsbarEl, teamLogoEl, teamNameEl, teamsPageMainEl, playersPageMainEl, queryString, pathName, teamID, playerID, baseURL, playerHeaderInfoEl, playerplayerActionImgEl, playerTeamRosterEl, playerProfileInfoEl } from './variables';
+
+//Eventlisteners
+if (playerTeamRosterEl){
+    playerTeamRosterEl.addEventListener('change', () => {
+        console.log(playerTeamRosterEl.value);
+        window.location.href = `/players.html?playerid=${playerTeamRosterEl.value}`;
+    })
+}
 
 
-
+// Render Teams Grid
 async function renderTeamsGrid(el){
 try{
     const teamsData = await fetchNHLTeams(baseURL);
@@ -21,23 +28,23 @@ try{
     </a>
     <!-- End of ${team.teamAbbrev.default} -->
     `;
-});
-const teamElements = document.querySelectorAll('.team__box');
+    });
+    const teamElements = document.querySelectorAll('.team__box');
         
-// Add event listener to each team element
-teamElements.forEach(teamElement => {
-    teamElement.addEventListener('mouseenter', () => {
-    const teamAbbrev = teamElement.id;
-    console.log(`Team ${teamAbbrev} hovered`);
-    preFetchTeam(teamAbbrev, teamsData); // Call the first function
-    }, { once: true });
-});
+    // Add event listener to each team element
+    teamElements.forEach(teamElement => {
+        teamElement.addEventListener('mouseenter', () => {
+        const teamAbbrev = teamElement.id;
+        console.log(`Team ${teamAbbrev} hovered`);
+        preFetchTeam(teamAbbrev, teamsData); 
+        }, { once: true });
+    });
 } catch (error) {
 console.error('Error:', error);
 }
 }
 
-
+// Render NHLTeam
 
 async function renderNHLTeam(teamID){
 try{
@@ -109,8 +116,6 @@ try{
         <p class="smallest">P</p>
         <p class="statsbar__stats--box--stat">${currentTeam.points}</p>
         </div>
-        
-
     </div>
     `;
 
@@ -119,6 +124,9 @@ try{
     console.error('Error:', error);
 }
 }
+
+
+//Render team roster
 
 async function renderRoster(baseURL, teamID) {
 try {
@@ -138,6 +146,7 @@ try {
         <td><a href="/players?playerid=${goalie.id}"> ${goalie.weightInKilograms}</a></td>
         </tr>
         `;
+        sessionStorage.setItem(`pre-p-${goalie.id}`, JSON.stringify(goalie));
     });
     
     rosterData.defensemen.forEach(defender => {
@@ -151,6 +160,7 @@ try {
         <td><a href="/players?playerid=${defender.id}"> ${defender.weightInKilograms}</a></td>
         </tr>
         `;
+        sessionStorage.setItem(`pre-p-${defender.id}`, JSON.stringify(defender));
     });
     
     rosterData.forwards.forEach(forward => {
@@ -164,6 +174,7 @@ try {
         <td><a href="/players?playerid=${forward.id}"> ${forward.weightInKilograms}</a></td>
         </tr>
         `;
+        sessionStorage.setItem(`pre-p-${forward.id}`, JSON.stringify(forward));
     });
     }
 } catch (error) {
@@ -239,4 +250,98 @@ try {
 }
 
 
-export {renderTeamsGrid, renderNHLTeam, renderRoster, renderStatsCards};
+//Render Player
+
+async function renderPlayer(playerID) {
+try {
+    let playerData;
+    let prePlayerData;
+    
+    if (!playerID){
+        playerData = await fetchRandomPlayer();
+        console.log("Fetch randomplayer succesful now render: ", playerData);
+
+    } else
+        //Check if some player data already exists in sessionstorage.
+        prePlayerData = sessionStorage.getItem(`pre-p-${playerID}`);
+        
+        if (prePlayerData){
+            prePlayerData = JSON.parse(prePlayerData);
+            preRenderPlayer(prePlayerData);
+        }
+
+        playerData = await fetchNHLPlayer(baseURL, playerID);
+        console.log("Fetch player succesful now render: ", playerData);
+        renderPlayerHeader(playerData);
+
+    if (!playerData) {
+    console.log("no data");
+    return;
+    }
+
+    
+} catch (error) {
+    console.error("Error: ", error);
+}
+}
+
+
+function preRenderPlayer(playerData){
+    console.log("prerenderPlayer:", playerData);
+    let playerName = `${playerData.firstName.default} ${playerData.lastName.default}`;
+    playerHeaderInfoEl.innerHTML = `
+        <img src="${playerData.teamLogo}" class="team__logo--medium" alt="">
+        <h1 class="player__heading"><span>#${playerData.sweaterNumber}</span> <span>${playerName}</span></h1>
+    `;
+
+    playerProfileInfoEl.innerHTML = `
+        <img src="${playerData.headshot}" class="player__banner--img"  alt="Profilbild av ${playerName}">
+        <div>
+            <p class="smallest">Längd: ${playerData.heightInCentimeters} cm</p>
+            <p class="smallest">Vikt: ${playerData.weightInKilograms} kg</p>
+            <p class="smallest">Född: ${playerData.birthDate}</p>
+            <p class="smallest">Födelseort: ${playerData.birthCity.default}</p>
+            <p class="smallest">Fattning: ${playerData.shootsCatches}</p>
+        </div>
+    `;
+}
+
+async function renderPlayerHeader(playerData){
+
+    let playerName = `${playerData.firstName.default} ${playerData.lastName.default}`;
+    playerHeaderInfoEl.innerHTML = `
+        <img src="${playerData.teamLogo}" class="team__logo--medium" alt="">
+        <h1 class="player__heading"><span>#${playerData.sweaterNumber}</span> <span>${playerName}</span></h1>
+    `;
+    playerplayerActionImgEl.innerHTML = `
+        <img src="${playerData.heroImage}"  alt="Actionbild av ${playerData.fullTeamName.default} spelaren ${playerName}" class="player__action--image">
+    `;
+
+    const currentPlayerID = playerData.playerId; //Get current players ID
+    rosterData = await fetchNHLRoster(baseURL, playerData.currentTeamAbbrev); //Fetch players teamroster
+
+    
+    //Loop through the object
+    Object.entries(rosterData).forEach(([category, players]) => {
+    
+        //Loop through players
+    players.forEach(player => {
+            //If player id is not = current player
+            if (player.id != currentPlayerID){
+                playerTeamRosterEl.innerHTML += `
+                    <option value="${player.id}">${player.firstName.default} ${player.lastName.default}</option>
+                `;
+                sessionStorage.setItem(`pre-p-${player.id}`, JSON.stringify(player));
+            } else {
+                playerTeamRosterEl.innerHTML += `
+                    <option value="${player.id}" selected>${player.firstName.default} ${player.lastName.default}</option>
+                `;
+            } 
+    });
+});
+
+}
+
+
+
+export {renderTeamsGrid, renderNHLTeam, renderRoster, renderStatsCards, renderPlayer};
