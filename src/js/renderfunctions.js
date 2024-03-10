@@ -275,6 +275,7 @@ try {
     }
      
     renderPlayerHeader(playerData);
+    renderPlayerBio(playerData);
 
     if (!playerData) {
     console.log("no data");
@@ -292,7 +293,6 @@ function preRenderPlayer(playerData){
     console.log("prerenderPlayer:", playerData);
     let playerName = `${playerData.firstName.default} ${playerData.lastName.default}`;
     playerHeaderInfoEl.innerHTML = `
-        <img src="${playerData.teamLogo}" class="team__logo--medium" alt="">
         <h1 class="player__heading"><span>#${playerData.sweaterNumber}</span> <span>${playerName}</span></h1>
     `;
 
@@ -322,7 +322,6 @@ async function renderPlayerHeader(playerData){
 
     const currentPlayerID = playerData.playerId; //Get current players ID
     rosterData = await fetchNHLRoster(baseURL, playerData.currentTeamAbbrev); //Fetch players teamroster
-
     
     //Loop through the object
     Object.entries(rosterData).forEach(([category, players]) => {
@@ -341,9 +340,14 @@ async function renderPlayerHeader(playerData){
                 `;
             } 
     });
+
 });
+}
+
+function renderPlayerBio(){
 
 }
+
 
 
 
