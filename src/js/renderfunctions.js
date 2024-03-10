@@ -323,7 +323,7 @@ async function renderPlayerHeader(playerData){
     `;
 
     const currentPlayerID = playerData.playerId; //Get current players ID
-    rosterData = await fetchNHLRoster(baseURL, playerData.currentTeamAbbrev); //Fetch players teamroster
+    const rosterData = await fetchNHLRoster(baseURL, playerData.currentTeamAbbrev); //Fetch players teamroster
     
     //Loop through the object
     Object.entries(rosterData).forEach(([category, players]) => {
