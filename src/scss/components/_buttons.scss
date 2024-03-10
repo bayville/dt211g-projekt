@@ -6,7 +6,7 @@
     cursor: pointer;   
     transition: 0.2s;
     font-weight: 700;
-
+    text-decoration: none;
     &:active{
         transform: translateY(-3px);
     }
