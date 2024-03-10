@@ -276,6 +276,7 @@ try {
      
     renderPlayerHeader(playerData);
     renderPlayerInfo(playerData);
+    renderPlayerStats(playerData);
 
     if (!playerData) {
     console.log("no data");
@@ -293,7 +294,7 @@ function preRenderPlayer(playerData){
     console.log("prerenderPlayer:", playerData);
     let playerName = `${playerData.firstName.default} ${playerData.lastName.default}`;
     playerHeaderInfoEl.innerHTML = `
-        <h1 class="player__heading"><span>#${playerData.sweaterNumber}</span> <span>${playerName}</span></h1>
+    <h1 class="player__heading"><span>${playerData.position}  |  #${playerData.sweaterNumber}</span> <span>${playerName}</span></h1>
     `;
 
     playerProfileInfoEl.innerHTML = `
@@ -302,6 +303,7 @@ function preRenderPlayer(playerData){
             <p class="smallest">Längd: ${playerData.heightInCentimeters} cm</p>
             <p class="smallest">Vikt: ${playerData.weightInKilograms} kg</p>
             <p class="smallest">Född: ${playerData.birthDate}</p>
+            <p class="smallest">Land: ${playerData.birthCountry}</p>
             <p class="smallest">Födelseort: ${playerData.birthCity.default}</p>
             <p class="smallest">Fattning: ${playerData.shootsCatches}</p>
         </div>
@@ -314,7 +316,7 @@ async function renderPlayerHeader(playerData){
     let playerName = `${playerData.firstName.default} ${playerData.lastName.default}`;
     playerHeaderInfoEl.innerHTML = `
         <img src="${playerData.teamLogo}" class="team__logo--medium" alt="">
-        <h1 class="player__heading"><span>#${playerData.sweaterNumber}</span> <span>${playerName}</span></h1>
+        <h1 class="player__heading"><span>${playerData.position}  |  #${playerData.sweaterNumber}</span> <span>${playerName}</span></h1>
     `;
     playerplayerActionImgEl.innerHTML = `
         <img src="${playerData.heroImage}"  alt="Actionbild av ${playerData.fullTeamName.default} spelaren ${playerName}" class="player__action--image">
@@ -351,6 +353,7 @@ function renderPlayerInfo(playerData){
         <p class="smallest">Längd: ${playerData.heightInCentimeters} cm</p>
         <p class="smallest">Vikt: ${playerData.weightInKilograms} kg</p>
         <p class="smallest">Född: ${playerData.birthDate}</p>
+        <p class="smallest">Land: ${playerData.birthCountry}</p>
         <p class="smallest">Födelseort: ${playerData.birthCity.default}</p>
         <p class="smallest">Fattning: ${playerData.shootsCatches}</p>
         <p class="smallest">Draft: ${playerData.draftDetails ? `#${playerData.draftDetails.overallPick}, ${playerData.draftDetails.year} till ${playerData.draftDetails.teamAbbrev}` : "Inte draftad"}</p>
@@ -360,7 +363,87 @@ function renderPlayerInfo(playerData){
 
 
 function renderPlayerStats(playerData){
+    const seasonId = playerData.featuredStats.season.toString();
+    const formattedSeasonId = `${seasonId.slice(0, 4)}-${seasonId.slice(4)}`;
+    const seasonData = playerData.featuredStats.regularSeason.subSeason;
+    const carrerData = playerData.featuredStats.regularSeason.career;
+    console.log(seasonData);
+    console.log(carrerData);
+    playerStatsbarEl.innerHTML = `
+        <div class="statsbar">
+        <h2>${formattedSeasonId}</h2>
+        <div class="statsbar__stats">
+            <!-- Games Played -->
+            <div class="statsbar__stats--box">
+            <p class="smallest">GP</p>
+            <p class="statsbar__stats--box--stat">${seasonData.gamesPlayed}</p>
+            </div>
 
+            <!-- Goals -->
+            <div class="statsbar__stats--box">
+            <p class="smallest">G</p>
+            <p class="statsbar__stats--box--stat">${seasonData.goals}</p>
+            </div>
+            
+            <!-- Assists -->
+            <div class="statsbar__stats--box">
+            <p class="smallest">A</p>
+            <p class="statsbar__stats--box--stat">${seasonData.assists}</p>
+            </div>
+
+            <!-- Points -->
+            <div class="statsbar__stats--box">
+            <p class="smallest">P</p>
+            <p class="statsbar__stats--box--stat">${seasonData.points}</p>
+            </div>
+
+            <!-- plus / minus -->
+            <div class="statsbar__stats--box">
+            <p class="smallest">+/-</p>
+            <p class="statsbar__stats--box--stat">${seasonData.plusMinus}</p>
+            </div>
+
+        </div>
+        </div>
+        <!-- End of first statsbar -->
+        <!-- Start of second statsbar -->
+        <div class="statsbar">
+        <h2>Karriär</h2>
+        <div class="statsbar__stats">
+            <!-- Games Played -->
+            <div class="statsbar__stats--box">
+            <p class="smallest">GP</p>
+            <p class="statsbar__stats--box--stat">${carrerData.gamesPlayed}</p>
+            </div>
+
+            <!-- Goals -->
+            <div class="statsbar__stats--box">
+            <p class="smallest">G</p>
+            <p class="statsbar__stats--box--stat">${carrerData.goals}</p>
+            </div>
+            
+            <!-- Assists -->
+            <div class="statsbar__stats--box">
+            <p class="smallest">A</p>
+            <p class="statsbar__stats--box--stat">${carrerData.assists}</p>
+            </div>
+
+            <!-- Points -->
+            <div class="statsbar__stats--box">
+            <p class="smallest">P</p>
+            <p class="statsbar__stats--box--stat">${carrerData.points}</p>
+            </div>
+
+            <!-- plus / minus -->
+            <div class="statsbar__stats--box">
+            <p class="smallest">+/-</p>
+            <p class="statsbar__stats--box--stat">${carrerData.plusMinus}</p>
+            </div>
+
+        </div>
+        </div>
+        <!-- End of first statsbar -->
+    `;
 }
 
 
