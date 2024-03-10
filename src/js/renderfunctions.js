@@ -1,5 +1,5 @@
 import {fetchNHLStatsLeaders, fetchNHLTeams, fetchNHLRoster, fetchNHLPlayer, fetchAndRenderWikiContent, preFetchTeam, fetchRandomPlayer} from './apifetch';
-import { goaileTableEl, defensemenTableEl, forewardTableEl, teamGridEl, statsLeaderGoalsEl, statsLeaderPointsEl, statsLeaderAssistsEl,statsLeaderPlusMinusEl, teamStatsbarEl, teamLogoEl, teamNameEl, teamsPageMainEl, playersPageMainEl, queryString, pathName, teamID, playerID, baseURL, playerHeaderInfoEl, playerplayerActionImgEl, playerTeamRosterEl, playerProfileInfoEl } from './variables';
+import { goaileTableEl, defensemenTableEl, forewardTableEl, teamGridEl, statsLeaderGoalsEl, statsLeaderPointsEl, statsLeaderAssistsEl,statsLeaderPlusMinusEl, teamStatsbarEl, teamLogoEl, teamNameEl, teamsPageMainEl, playersPageMainEl, queryString, pathName, teamID, playerID, baseURL, playerHeaderInfoEl, playerplayerActionImgEl, playerTeamRosterEl, playerProfileInfoEl, playerStatsbarEl } from './variables';
 
 //Eventlisteners
 if (playerTeamRosterEl){
@@ -275,7 +275,7 @@ try {
     }
      
     renderPlayerHeader(playerData);
-    renderPlayerBio(playerData);
+    renderPlayerInfo(playerData);
 
     if (!playerData) {
     console.log("no data");
@@ -344,10 +344,24 @@ async function renderPlayerHeader(playerData){
 });
 }
 
-function renderPlayerBio(){
-
+function renderPlayerInfo(playerData){
+    playerProfileInfoEl.innerHTML = `
+    <img src="${playerData.headshot}" class="player__banner--img"  alt="Profilbild av ${playerName}">
+    <div>
+        <p class="smallest">Längd: ${playerData.heightInCentimeters} cm</p>
+        <p class="smallest">Vikt: ${playerData.weightInKilograms} kg</p>
+        <p class="smallest">Född: ${playerData.birthDate}</p>
+        <p class="smallest">Födelseort: ${playerData.birthCity.default}</p>
+        <p class="smallest">Fattning: ${playerData.shootsCatches}</p>
+        <p class="smallest">Draft: ${playerData.draftDetails ? `#${playerData.draftDetails.overallPick}, ${playerData.draftDetails.year} till ${playerData.draftDetails.teamAbbrev}` : "Inte draftad"}</p>
+    </div>
+`;
 }
 
+
+function renderPlayerStats(playerData){
+
+}
 
 
 
