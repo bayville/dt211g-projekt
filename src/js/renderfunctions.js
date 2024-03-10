@@ -261,7 +261,7 @@ try {
         playerData = await fetchRandomPlayer();
         console.log("Fetch randomplayer succesful now render: ", playerData);
 
-    } else
+    } else{
         //Check if some player data already exists in sessionstorage.
         prePlayerData = sessionStorage.getItem(`pre-p-${playerID}`);
         
@@ -272,7 +272,9 @@ try {
 
         playerData = await fetchNHLPlayer(baseURL, playerID);
         console.log("Fetch player succesful now render: ", playerData);
-        renderPlayerHeader(playerData);
+    }
+     
+    renderPlayerHeader(playerData);
 
     if (!playerData) {
     console.log("no data");
@@ -305,6 +307,7 @@ function preRenderPlayer(playerData){
         </div>
     `;
 }
+
 
 async function renderPlayerHeader(playerData){
 

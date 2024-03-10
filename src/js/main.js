@@ -40,7 +40,7 @@ renderStatsCards();
     console.log("Fetch Random player id: rand");
     renderPlayer();
   } else if (playerID){
-    console.log("Fetch player");
+    console.log("Fetch player player id:", playerID);
     renderPlayer(playerID);
   }
 
