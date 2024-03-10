@@ -347,6 +347,7 @@ async function renderPlayerHeader(playerData){
 }
 
 function renderPlayerInfo(playerData){
+    let playerName = `${playerData.firstName.default} ${playerData.lastName.default}`;
     playerProfileInfoEl.innerHTML = `
     <img src="${playerData.headshot}" class="player__banner--img"  alt="Profilbild av ${playerName}">
     <div>
