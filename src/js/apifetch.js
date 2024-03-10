@@ -95,6 +95,7 @@ async function fetchNHLPlayer(baseURL, playerID){
       sessionStorage.setItem(`p-${playerID}`, JSON.stringify(playerData));
     }
     
+    let playerName;
     //If Swedish or Skandinavian name exist use that, else use deafult
     if (playerData.lastName.sv) {
         if (playerData.firstName.sv) {
@@ -105,7 +106,7 @@ async function fetchNHLPlayer(baseURL, playerID){
       console.log("SV-name");
     } else if (playerData.lastName.sk) {
         if (playerData.firstName.sk) {
-          playerName = `${playerData.firstName.sk} ${playerData.lastName.sk}`;
+         playerName = `${playerData.firstName.sk} ${playerData.lastName.sk}`;
         }else {
         playerName = `${playerData.firstName.default} ${playerData.lastName.sk}`;
         }
@@ -115,7 +116,7 @@ async function fetchNHLPlayer(baseURL, playerID){
       console.log("Default-name");
     }
 
-    fetchAndRenderWikiContent(baseURL, `${playerName}`);
+    fetchAndRenderWikiContent(baseURL, playerName);
     return playerData; 
     
   } catch (error){
