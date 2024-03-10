@@ -1,5 +1,5 @@
 import {fetchNHLStatsLeaders, fetchNHLTeams, fetchNHLRoster, fetchNHLPlayer, fetchAndRenderWikiContent, preFetchTeam, fetchRandomPlayer} from './apifetch';
-import { goaileTableEl, defensemenTableEl, forewardTableEl, teamGridEl, statsLeaderGoalsEl, statsLeaderPointsEl, statsLeaderAssistsEl,statsLeaderPlusMinusEl, teamStatsbarEl, teamLogoEl, teamNameEl, teamsPageMainEl, playersPageMainEl, queryString, pathName, teamID, playerID, baseURL, playerHeaderInfoEl, playerplayerActionImgEl, playerTeamRosterEl, playerProfileInfoEl, playerStatsbarEl } from './variables';
+import { goaileTableEl, defensemenTableEl, forewardTableEl, teamGridEl, statsLeaderGoalsEl, statsLeaderPointsEl, statsLeaderAssistsEl,statsLeaderPlusMinusEl, teamStatsbarEl, teamLogoEl, teamNameEl, teamsPageMainEl, playersPageMainEl, queryString, pathName, teamID, playerID, baseURL, playerHeaderInfoEl, playerplayerActionImgEl, playerTeamRosterEl, playerProfileInfoEl, playerStatsbarEl, gamesTableEl } from './variables';
 
 //Eventlisteners
 if (playerTeamRosterEl){
@@ -277,6 +277,7 @@ try {
     renderPlayerHeader(playerData);
     renderPlayerInfo(playerData);
     renderPlayerStats(playerData);
+    renderPlayerGameLog(playerData);
 
     if (!playerData) {
     console.log("no data");
@@ -346,6 +347,7 @@ async function renderPlayerHeader(playerData){
 });
 }
 
+//Render player info on player profile
 function renderPlayerInfo(playerData){
     let playerName = `${playerData.firstName.default} ${playerData.lastName.default}`;
     playerProfileInfoEl.innerHTML = `
@@ -362,7 +364,7 @@ function renderPlayerInfo(playerData){
 `;
 }
 
-
+//Render player statsbars
 function renderPlayerStats(playerData){
     const seasonId = playerData.featuredStats.season.toString();
     const formattedSeasonId = `${seasonId.slice(0, 4)}-${seasonId.slice(4)}`;
@@ -447,6 +449,25 @@ function renderPlayerStats(playerData){
     `;
 }
 
+//Render player gamelog
+function renderPlayerGameLog(playerData){
+    
+    playerData.last5Games.forEach(game => {
+        console.log(game);
+        gamesTableEl.innerHTML += `
+        <tr>
+        <td>${game.gameDate}</td>
+        <td>${game.opponentAbbrev}</td>
+        <td>${game.goals}</td>
+        <td>${game.assists}</td>
+        <td>${game.points}</td>
+        <td>${game.plusMinus}</td>
+        <td>${game.pim}</td>
+        <td>${game.toi}</td>
+        </tr>
+        `;
+    })
 
+}
 
 export {renderTeamsGrid, renderNHLTeam, renderRoster, renderStatsCards, renderPlayer};
