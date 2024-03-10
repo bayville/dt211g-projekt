@@ -294,7 +294,7 @@ function preRenderPlayer(playerData){
     console.log("prerenderPlayer:", playerData);
     let playerName = `${playerData.firstName.default} ${playerData.lastName.default}`;
     playerHeaderInfoEl.innerHTML = `
-    <h1 class="player__heading"><span>${playerData.position}  |  #${playerData.sweaterNumber}</span> <span>${playerName}</span></h1>
+    <h1 class="player__heading"><span>#${playerData.sweaterNumber}</span> <span>${playerName}</span></h1>
     `;
 
     playerProfileInfoEl.innerHTML = `
