@@ -159,8 +159,12 @@ async function fetchAndRenderWikiContent(baseURL, searchQuery) {
       pageContent = pages[pageId].extract; // Get the page content
       console.log("Fetched wikidata from API:");
       console.log(pageContent); // Handle the response data here
+      if (!pageContent){
+        pageContent = "Kan inte hämta information från Wikipedia."
+      }
       sessionStorage.setItem(`wiki-${searchQuery}`, JSON.stringify(pageContent));
     }
+  
 
     //If Wiki data element exists, render the pageContent to element
     if (wikiDataEl) {
