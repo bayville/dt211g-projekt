@@ -19,6 +19,7 @@ const playerTeamRosterEl = document.getElementById('playerTeamRoster');
 const playerProfileInfoEl = document.getElementById('playerProfileInfo');
 const playerStatsbarEl = document.getElementById('playerStatsbar');
 const gamesTableEl = document.getElementById('gamesTable');
+const gamesTableHeadEl = document.getElementById('gamesTableHead');
 
 // Extract the query string parameters from the URL
 const queryString = window.location.search;
@@ -33,4 +34,4 @@ const baseURL = "https://fetch-playground.netlify.app"; // Base URL for API requ
 
 
 
-export {goaileTableEl, defensemenTableEl, forewardTableEl, teamGridEl, statsLeaderGoalsEl, statsLeaderPointsEl, statsLeaderAssistsEl, statsLeaderPlusMinusEl, teamStatsbarEl, teamLogoEl, teamNameEl, teamsPageMainEl, playersPageMainEl, queryString, pathName, teamID, playerID, baseURL, wikiDataEl, playerHeaderInfoEl, playerplayerActionImgEl, playerTeamRosterEl, playerProfileInfoEl, playerStatsbarEl, gamesTableEl}
+export {goaileTableEl, defensemenTableEl, forewardTableEl, teamGridEl, statsLeaderGoalsEl, statsLeaderPointsEl, statsLeaderAssistsEl, statsLeaderPlusMinusEl, teamStatsbarEl, teamLogoEl, teamNameEl, teamsPageMainEl, playersPageMainEl, queryString, pathName, teamID, playerID, baseURL, wikiDataEl, playerHeaderInfoEl, playerplayerActionImgEl, playerTeamRosterEl, playerProfileInfoEl, playerStatsbarEl, gamesTableEl, gamesTableHeadEl}
