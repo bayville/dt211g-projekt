@@ -4,15 +4,19 @@
   "description": "Projektuppgift för kursen DT211G",
   "source": "src/index.html",
   "scripts": {
-    "dev": "parcel --host 192.168.50.92 --open chrome" ,
+    "dev": "parcel --host 192.168.50.92 --open chrome",
     "build": "parcel build"
   },
   "author": "Fredrik Eklund",
   "license": "ISC",
   "devDependencies": {
+    "@parcel/packager-raw-url": "^2.11.0",
+    "@parcel/packager-xml": "^2.11.0",
     "@parcel/transformer-sass": "^2.11.0",
+    "@parcel/transformer-webmanifest": "^2.11.0",
+    "@parcel/transformer-xml": "^2.11.0",
+    "axios": "^1.6.7",
     "parcel": "^2.11.0",
-    "sharp": "^0.31.3",
-    "axios": "^1.6.7"
+    "sharp": "^0.31.3"
   }
 }

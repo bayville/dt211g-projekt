@@ -1,25 +1,8 @@
 @use 'variables' as *;
 
-@keyframes textColorPulse {
-    0%{
-        color: $accent-color;
-    } 
-    
-    50% {
-        color: $white-color;
-    }
-    
-    100%{
-        color: $accent-color-secondary;
-    }
-    
-}
 
-@keyframes carRace{
-    0%{
-        right: 90%;
-    }
-    100%{
-        right: 0%;
+@keyframes hoverPlayer{
+    to {
+        background-color: darken($primary-light, 5%);
     }
 }
