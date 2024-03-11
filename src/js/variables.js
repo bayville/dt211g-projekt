@@ -29,7 +29,7 @@ const pathName = window.location.pathname;
 
 const teamID = urlParams.get('teamid'); // Get the team ID from the query string parameters
 const playerID = urlParams.get('playerid'); // Get the player ID from the query string parameters
-const baseURL = "https://fetch-playground.netlify.app"; // Base URL for API requests used for local production
+const baseURL = ""; // Base URL for API requests used for local production
 
 
 
