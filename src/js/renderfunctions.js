@@ -179,7 +179,6 @@ async function renderRoster(baseURL, teamID) {
 
 
 // Render Statscards
-
 async function renderStatsCards() {
 try {
     const data = await fetchNHLStatsLeaders();
@@ -310,7 +309,7 @@ async function renderPlayerHeader(playerData){
 
     let playerName = `${playerData.firstName.default} ${playerData.lastName.default}`;
     playerHeaderInfoEl.innerHTML = `
-        <img src="${playerData.teamLogo}" class="team__logo--medium" alt="">
+        <a href="teams?teamid=${playerData.currentTeamAbbrev}" ><img src="${playerData.teamLogo}" class="team__logo--medium" alt="Logo för ${playerData.currentTeamAbbrev}"></a>
         <h1 class="player__heading"><span>${playerData.position}  |  #${playerData.sweaterNumber}</span> <span>${playerName}</span></h1>
     `;
     playerplayerActionImgEl.innerHTML = `
