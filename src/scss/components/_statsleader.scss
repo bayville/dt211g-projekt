@@ -96,6 +96,18 @@
             }
         }
         //End of list section
-
     }
+
+    @include a.dark-mode{
+        &__card{
+
+            &--list--item {
+                background-color: a.$primary-light-darkm;
+                color: a.$primary-dark-darkm;
+               }
+
+        }
+  
+     }
+     
 }

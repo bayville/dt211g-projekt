@@ -3,7 +3,6 @@ import {goaileTableEl, defensemenTableEl, forwardTableEl, teamGridEl, statsLeade
 import { randomPlayer } from './playerids';
 
 
-
 //Fetch NHL teams
 
 async function fetchNHLTeams(baseURL) {
@@ -25,7 +24,6 @@ async function fetchNHLTeams(baseURL) {
     return error;
   }
 }
-
 
 
 //Fetch Statsleaders
@@ -75,7 +73,6 @@ async function fetchNHLRoster(baseURL, teamAbb) {
     return null; // Return null if there's an error fetching the rosterData.
   }
 }
-
 
 
 //Fetch players

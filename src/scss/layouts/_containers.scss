@@ -127,10 +127,12 @@
       }
 
     &__padding{
-      &--light-bg{
+      &--light-bg, &--white-bg{
         background-color: a.$primary-light-darkm;
         color: a.$primary-dark-darkm;
       }
+      
+      
     }
 
     &__margin{
