@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Projektuppgift för kursen DT211G",
   "source": "src/index.html",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
     "dev": "parcel --host 192.168.50.92 --open chrome",
     "build": "parcel build"
