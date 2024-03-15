@@ -5,7 +5,7 @@
   "source": "src/index.html",
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
-    "dev": "parcel --host 192.168.50.92 --open chrome",
+    "dev": "parcel",
     "build": "parcel build"
   },
   "author": "Fredrik Eklund",
