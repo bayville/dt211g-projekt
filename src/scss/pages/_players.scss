@@ -1,4 +1,5 @@
 @use '../abstracts/' as a;
+
 .player{
     background-color: a.$primary-dark;
     color: a.colorCheck(a.$primary-dark);
@@ -34,6 +35,7 @@
         object-fit: cover;
         object-position: top;
         max-height: 50dvh;
+        animation: card-animation 1s;
     }
     &__banner{
         display: grid;

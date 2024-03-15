@@ -19,6 +19,11 @@
             max-width: 60ch;
             padding-block: a.$base-padding;
         }
+        a{
+            display: block;
+            max-width: fit-content;
+            margin-top: 1em;
+        }
     }
 
     &--img{
@@ -31,6 +36,7 @@
             align-self: center;
             width: 100%;
             max-width: 400px;
+            animation: card-animation 0.5s;
 
             img{
                 max-width: 450px;

@@ -12,3 +12,14 @@
         background-color: darken($primary-light-darkm, 7%);
     }
 }
+
+
+@keyframes card-animation {
+    from {
+        opacity: 0;
+        transform: rotateX(-40deg);
+    } to {
+        opacity: 100;
+        transform: rotateX(0);
+    }
+}

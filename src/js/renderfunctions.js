@@ -284,27 +284,6 @@ try {
 }
 
 
-function preRenderPlayer(playerData){
-    console.log("prerenderPlayer:", playerData);
-    let playerName = `${playerData.firstName.default} ${playerData.lastName.default}`;
-    playerHeaderInfoEl.innerHTML = `
-    <h1 class="player__heading"><span>#${playerData.sweaterNumber}</span> <span>${playerName}</span></h1>
-    `;
-
-    playerProfileInfoEl.innerHTML = `
-        <img src="${playerData.headshot}" class="player__banner--img"  alt="Profilbild av ${playerName}">
-        <div>
-            <p class="smallest">Längd: ${playerData.heightInCentimeters} cm</p>
-            <p class="smallest">Vikt: ${playerData.weightInKilograms} kg</p>
-            <p class="smallest">Född: ${playerData.birthDate}</p>
-            <p class="smallest">Land: ${playerData.birthCountry}</p>
-            <p class="smallest">Födelseort: ${playerData.birthCity.default}</p>
-            <p class="smallest">Fattning: ${playerData.shootsCatches}</p>
-        </div>
-    `;
-}
-
-
 async function renderPlayerHeader(playerData){
 
     let playerName = `${playerData.firstName.default} ${playerData.lastName.default}`;
@@ -350,7 +329,7 @@ function renderPlayerInfo(playerData){
         <p class="smallest">Vikt: ${playerData.weightInKilograms} kg</p>
         <p class="smallest">Född: ${playerData.birthDate}</p>
         <p class="smallest">Land: ${playerData.birthCountry}</p>
-        <p class="smallest">Födelseort: ${playerData.birthCity.default}</p>
+        <p class="smallest">Födelseort: ${playerData.birthCity.sv ? playerData.birthCity.sv : playerData.birthCity.default}</p>
         <p class="smallest">Fattning: ${playerData.shootsCatches}</p>
         <p class="smallest">Draft: ${playerData.draftDetails ? `#${playerData.draftDetails.overallPick}, ${playerData.draftDetails.year} till ${playerData.draftDetails.teamAbbrev}` : "Inte draftad"}</p>
     </div>
@@ -449,10 +428,10 @@ function renderPlayerGameLog(playerData){
     //Create table headers based on position
     if (playerData.position != 'G'){
         //Skaters
-        tableHeaders = ['Datum', 'VS', 'G', 'A', 'P', '+/-', 'PIM', 'TOI' ]
+        tableHeaders = ['Datum', 'VS', 'G', 'A', 'P', '+/-', 'PIM', 'TOI' ];
     } else{
         //Goailes
-        tableHeaders = ['Datum', 'VS', 'W/L', 'SA', 'GA', 'SV%']
+        tableHeaders = ['Datum', 'VS', 'W/L', 'SA', 'GA', 'SV%'];
     }
 
     //Create table headers
@@ -502,9 +481,28 @@ function renderPlayerGameLog(playerData){
             `;
         })
     }
-    
-   
-
 }
+
+//Pre render some of the playerdata before making the fetch.
+function preRenderPlayer(playerData){
+    console.log("prerenderPlayer:", playerData);
+    let playerName = `${playerData.firstName.default} ${playerData.lastName.default}`;
+    playerHeaderInfoEl.innerHTML = `
+    <h1 class="player__heading"><span>#${playerData.sweaterNumber}</span> <span>${playerName}</span></h1>
+    `;
+
+    playerProfileInfoEl.innerHTML = `
+        <img src="${playerData.headshot}" class="player__banner--img"  alt="Profilbild av ${playerName}">
+        <div>
+            <p class="smallest">Längd: ${playerData.heightInCentimeters} cm</p>
+            <p class="smallest">Vikt: ${playerData.weightInKilograms} kg</p>
+            <p class="smallest">Född: ${playerData.birthDate}</p>
+            <p class="smallest">Land: ${playerData.birthCountry}</p>
+            <p class="smallest">Födelseort: ${playerData.birthCity.default}</p>
+            <p class="smallest">Fattning: ${playerData.shootsCatches}</p>
+        </div>
+    `;
+}
+
 
 export {renderTeamsGrid, renderNHLTeam, renderRoster, renderStatsCards, renderPlayer};

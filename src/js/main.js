@@ -7,8 +7,6 @@ import {renderTeamsGrid, renderNHLTeam, renderRoster, renderStatsCards, renderPl
 if (statsLeaderGoalsEl) {
 renderStatsCards();
 }
-
-
   if (teamID){
     renderNHLTeam(teamID.toUpperCase());
   } else if (!teamID && teamsPageMainEl) {
