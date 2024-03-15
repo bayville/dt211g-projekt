@@ -1,5 +1,5 @@
 ## Projektbeskrivning
-Syftet med arbetet har varit att använda en modern och automatiserad ut-vecklingsmiljö för frontendutveckling för att skapa en webbplats som häm-tar information med hjälp av minst två olika API:er i en så kallad mashup. API:er från NHL samt Wikipedia har använts för att genomföra projektet.
+Syftet med arbetet har varit att använda en modern och automatiserad utvecklingsmiljö för frontendutveckling för att skapa en webbplats som hämtar information med hjälp av minst två olika API:er i en så kallad mashup. API:er från NHL samt Wikipedia har använts för att genomföra projektet.
 
 Webbplatsen kan användas för att visa statistik och information om NHL-lag och spelare.
 
