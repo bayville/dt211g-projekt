@@ -1,9 +1,15 @@
 ## Projektbeskrivning
 Syftet med arbetet har varit att använda en modern och automatiserad utvecklingsmiljö för frontendutveckling för att skapa en webbplats som hämtar information med hjälp av minst två olika API:er i en så kallad mashup. API:er från NHL samt Wikipedia har använts för att genomföra projektet.
 
-Webbplatsen kan användas för att visa statistik och information om NHL-lag och spelare.
+Webbplatsen kan användas för att visa statistik aktuell och information om NHL-lag och spelare.
+Hela projektet är skapat av mig från grunden inklusive, grafisk profil, loggor, layouter och all kod.
 
-Länk till webbplatsen: https://frek1802-dt211g-projekt.netlify.app.
+[Livedemo](https://frek1802-dt211g-projekt.netlify.app)
+
+## Screenshots
+![NHL Project Screenshot](https://github.com/bayville/dt211g-projekt/blob/main/nhl1.png)
+![NHL Project Screenshot](https://github.com/bayville/dt211g-projekt/blob/main/nhl2.png)
+
 
 ## API:er som använts
 * Dokumentation för NHL-api: https://github.com/Zmalski/NHL-API-Reference
